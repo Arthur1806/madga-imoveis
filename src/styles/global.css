@@ -812,7 +812,7 @@ dl.hours dt { color: var(--ink-soft); } dl.hours dd { margin: 0; font-weight: 50
   body { padding-bottom: 0; }
   .header__logo img { height: 40px; }
   .nav { display: flex; }
-  .header__cta { display: inline-flex; min-height: 2.75rem; padding-inline: 1.25rem; }
+  .header__cta { display: inline-flex; min-height: 2.3rem; padding: .45rem 1rem; font-size: .85rem; border-radius: 999px; }
   .burger, .drawer { display: none; }
 
   .hero__grid { grid-template-columns: 1.05fr 1fr; min-height: min(86vh, 780px); align-items: stretch; }
@@ -989,3 +989,18 @@ dl.hours dt { color: var(--ink-soft); } dl.hours dd { margin: 0; font-weight: 50
   .contact--modern { grid-template-columns: 1.25fr 1fr; gap: 3.5rem; align-items: start; }
   .contact__info { position: sticky; top: calc(var(--header-h) + 1.5rem); }
 }
+
+/* CTAs modernos (WhatsApp / ligar) */
+.btn--wa, .btn--block.btn--ghost { border-radius: 14px; min-height: 3.4rem; font-weight: 600; letter-spacing: .005em; }
+.btn--wa {
+  background: linear-gradient(135deg, #2bb673 0%, #1f7a4d 60%, #17633d 100%);
+  box-shadow: 0 8px 20px -6px rgba(31,122,77,.55), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.btn--wa:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -6px rgba(31,122,77,.65), inset 0 1px 0 rgba(255,255,255,.3); }
+.btn--wa svg { width: 1.9rem; height: 1.9rem; padding: .4rem; border-radius: 50%; background: rgba(255,255,255,.2); }
+.btn--block.btn--ghost {
+  background: #fff; color: var(--green-deep); border: 1.5px solid #cfdcd4;
+  box-shadow: 0 2px 8px -3px rgba(15,47,41,.15);
+}
+.btn--block.btn--ghost:hover { background: #f1f7f3; color: var(--green-deep); border-color: var(--green); transform: translateY(-2px); box-shadow: 0 8px 18px -8px rgba(15,47,41,.3); }
+.btn--block.btn--ghost svg { width: 1.9rem; height: 1.9rem; padding: .4rem; border-radius: 50%; background: #e4efe8; color: var(--green); }
