@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
 import Icon from '../components/Icon.astro';
 import { SERVICES, whatsappUrl } from '../config/site';
 import { breadcrumbs } from '../lib/schema';
@@ -11,7 +12,7 @@ import { breadcrumbs } from '../lib/schema';
 >
   <section class="phero">
     <div class="wrap">
-      <ol class="crumbs" aria-label="Você está em"><li><a href="/">Início</a></li><li aria-current="page">Serviços</li></ol>
+      <ol class="crumbs" aria-label="Você está em"><li><a href={u('/')}>Início</a></li><li aria-current="page">Serviços</li></ol>
       <span class="eyebrow">Serviços</span>
       <h1>Cuidamos de cada etapa</h1>
       <p class="lead">Da escolha do imóvel à documentação, com atendimento próximo e transparente.</p>
@@ -42,7 +43,7 @@ import { breadcrumbs } from '../lib/schema';
       <p class="lead" style="margin-top:1.25rem">Converse com um consultor e receba orientação para vender ou alugar.</p>
       <div class="cta__btns">
         <a class="btn btn--wa" href={whatsappUrl('Olá! Gostaria de uma avaliação gratuita do meu imóvel.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Avaliação gratuita</a>
-        <a class="btn btn--ghost" href="/contato">Enviar mensagem</a>
+        <a class="btn btn--ghost" href={u('/contato')}>Enviar mensagem</a>
       </div>
     </div>
   </section>

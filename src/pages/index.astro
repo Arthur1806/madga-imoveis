@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
 import Icon from '../components/Icon.astro';
 import SearchBar from '../components/SearchBar.astro';
 import PropertyCard from '../components/PropertyCard.astro';
@@ -24,7 +25,7 @@ const featured = getFeatured(6);
         <h1>Imóveis de alto padrão em Brasília, com <em>atendimento consultivo.</em></h1>
         <p class="lead">Compra, venda e locação com proximidade, transparência e segurança jurídica, do primeiro contato à entrega das chaves.</p>
         <div class="hero__ctas">
-          <a class="btn btn--gold" href="/imoveis">Encontre seu próximo imóvel <Icon name="arrow" /></a>
+          <a class="btn btn--gold" href={u('/imoveis')}>Encontre seu próximo imóvel <Icon name="arrow" /></a>
           <a class="btn btn--ghost-light" href={whatsappUrl('Olá! Gostaria de falar com um especialista da Magda Imóveis.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Fale com um especialista</a>
         </div>
         <p class="hero__note">{SITE.creci} · Atendimento de segunda a sexta, {SITE.hours[0].time}</p>
@@ -46,7 +47,7 @@ const featured = getFeatured(6);
           <span class="eyebrow">Imóveis em destaque</span>
           <h2>Seleção da Magda</h2>
         </div>
-        <a class="link-arrow" href="/imoveis">Ver todos os imóveis <Icon name="arrow" /></a>
+        <a class="link-arrow" href={u('/imoveis')}>Ver todos os imóveis <Icon name="arrow" /></a>
       </div>
       <ul class="grid grid--3">
         {featured.map((i, idx) => <PropertyCard imovel={i} eager={idx < 3} />)}
@@ -62,7 +63,7 @@ const featured = getFeatured(6);
         <p class="lead">Atendemos casas e apartamentos em diferentes regiões do Distrito Federal, com foco no Lago Sul.</p>
       </div>
       <div class="chips">
-        {NEIGHBORHOODS.map((n) => <a class="chip" href={`/imoveis?bairro=${encodeURIComponent(n)}`}>{n}</a>)}
+        {NEIGHBORHOODS.map((n) => <a class="chip" href={u(`/imoveis?bairro=${encodeURIComponent(n)}`)}>{n}</a>)}
       </div>
     </div>
   </section>
@@ -84,7 +85,7 @@ const featured = getFeatured(6);
             </li>
           ))}
         </ul>
-        <a class="btn btn--ghost" href="/sobre">Conheça nossa história</a>
+        <a class="btn btn--ghost" href={u('/sobre')}>Conheça nossa história</a>
       </div>
     </div>
   </section>
@@ -110,7 +111,7 @@ const featured = getFeatured(6);
           <span class="eyebrow">Serviços</span>
           <h2>Cuidamos de cada etapa</h2>
         </div>
-        <a class="link-arrow" href="/servicos">Conheça os serviços <Icon name="arrow" /></a>
+        <a class="link-arrow" href={u('/servicos')}>Conheça os serviços <Icon name="arrow" /></a>
       </div>
       <ul class="rows">
         {SERVICES.map((s, i) => (
@@ -131,7 +132,7 @@ const featured = getFeatured(6);
       <p class="lead" style="margin-top:1.25rem">Solicite uma avaliação gratuita e converse com um consultor da Magda Imóveis.</p>
       <div class="cta__btns">
         <a class="btn btn--wa" href={whatsappUrl('Olá! Gostaria de uma avaliação gratuita do meu imóvel.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Avaliação gratuita</a>
-        <a class="btn btn--ghost" href="/contato">Outras formas de contato</a>
+        <a class="btn btn--ghost" href={u('/contato')}>Outras formas de contato</a>
       </div>
     </div>
   </section>

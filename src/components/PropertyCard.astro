@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { PURPOSE_LABEL, TYPE_LABEL, formatPrice, getPhotos, specs, type Imovel } from '../lib/imoveis';
+import { u } from '../lib/url';
 interface Props { imovel: Imovel; eager?: boolean }
 const { imovel, eager = false } = Astro.props;
 const cover = getPhotos(imovel)[0];
@@ -24,7 +25,7 @@ const s = specs(imovel);
   </div>
   <div class="card__body">
     <span class="card__loc">{imovel.neighborhood}</span>
-    <h3 class="card__title"><a class="stretch" href={`/imoveis/${imovel.slug}`}>{imovel.title}</a></h3>
+    <h3 class="card__title"><a class="stretch" href={u(`/imoveis/${imovel.slug}`)}>{imovel.title}</a></h3>
     {s.length > 0 && (
       <div class="specs">{s.map((i) => <span><strong>{i.value}</strong> {i.label.toLowerCase()}</span>)}</div>
     )}

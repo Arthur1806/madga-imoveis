@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
 import Icon from '../components/Icon.astro';
 import magda from '../assets/brand/magda-da-mata.jpg';
 import { DIFFERENTIALS, SITE, STATS, VALUES, whatsappUrl } from '../config/site';
@@ -114,7 +115,7 @@ const timeline = [
       <span class="eyebrow">Vamos conversar</span>
       <h2>Fale com um consultor da Magda.</h2>
       <div class="cta__btns">
-        <a class="btn btn--primary" href="/imoveis">Explorar imóveis</a>
+        <a class="btn btn--primary" href={u('/imoveis')}>Explorar imóveis</a>
         <a class="btn btn--wa" href={whatsappUrl('Olá! Gostaria de falar com um consultor da Magda Imóveis.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Falar com um consultor</a>
       </div>
     </div>

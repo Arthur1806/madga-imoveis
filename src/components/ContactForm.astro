@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../config/site';
+import { u } from '../lib/url';
 interface Props { subject?: string; idPrefix?: string; compact?: boolean }
 const { subject = '', idPrefix = 'cf', compact = false } = Astro.props;
 const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
@@ -26,7 +27,7 @@ const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
   <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
   <button class="btn btn--primary btn--block" type="submit">Enviar mensagem</button>
   <p class="form__status" role="status" hidden></p>
-  <p class="notice">Ao enviar, você concorda com nossa <a href="/politica-de-privacidade" style="text-decoration:underline">política de privacidade</a>. {SITE.responseTime}</p>
+  <p class="notice">Ao enviar, você concorda com nossa <a href={u('/politica-de-privacidade')} style="text-decoration:underline">política de privacidade</a>. {SITE.responseTime}</p>
 </form>
 <script>
   document.querySelectorAll<HTMLFormElement>('form.form').forEach((form) => {

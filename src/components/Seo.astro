@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../config/site';
+import { stripBase } from '../lib/url';
 
 interface Props {
   title: string;
@@ -10,8 +11,9 @@ interface Props {
   noindex?: boolean;
   jsonLd?: object | object[];
 }
-const { title, description, image, type = 'website', noindex = false, jsonLd } = Astro.props;
-const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const { title, description, image, type = 'website', jsonLd } = Astro.props;
+const noindex = Astro.props.noindex ?? import.meta.env.PUBLIC_NOINDEX === 'true';
+const pathname = stripBase(Astro.url.pathname).replace(/\/$/, '') || '/';
 const canonical = new URL(pathname, SITE.url).href;
 const ogImage = new URL(image ?? '/og-default.jpg', SITE.url).href;
 const fullTitle = pathname === '/' ? title : `${title} | ${SITE.name}`;

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
 import Icon from '../components/Icon.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { SITE, whatsappUrl } from '../config/site';
@@ -13,7 +14,7 @@ const a = SITE.address;
 >
   <section class="phero">
     <div class="wrap">
-      <ol class="crumbs" aria-label="Você está em"><li><a href="/">Início</a></li><li aria-current="page">Contato</li></ol>
+      <ol class="crumbs" aria-label="Você está em"><li><a href={u('/')}>Início</a></li><li aria-current="page">Contato</li></ol>
       <span class="eyebrow">Contato</span>
       <h1>Fale com um especialista</h1>
       <p class="lead">{SITE.responseTime}</p>

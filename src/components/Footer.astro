@@ -1,25 +1,26 @@
 ---
 import { NAV, SERVICES, SITE } from '../config/site';
+import { u } from '../lib/url';
 const a = SITE.address;
 ---
 <footer class="footer">
   <div class="wrap">
     <div class="footer__grid">
       <div>
-        <img class="footer__logo" src="/brand/magda-logo.png" alt="Magda Imóveis" width="608" height="196" loading="lazy" />
+        <img class="footer__logo" src={u('/brand/magda-logo.png')} alt="Magda Imóveis" width="608" height="196" loading="lazy" />
         <p>{SITE.tagline}</p>
         <p>Imóveis de alto padrão em Brasília-DF.</p>
       </div>
       <div>
         <h2>Navegação</h2>
         <ul>
-          {NAV.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
-          <li><a href="/politica-de-privacidade">Política de privacidade</a></li>
+          {NAV.map((l) => <li><a href={u(l.href)}>{l.label}</a></li>)}
+                    <li><a href={u('/politica-de-privacidade')}>Política de privacidade</a></li>
         </ul>
       </div>
       <div>
         <h2>Serviços</h2>
-        <ul>{SERVICES.map((s) => <li><a href="/servicos">{s.title}</a></li>)}</ul>
+        <ul>{SERVICES.map((s) => <li><a href={u('/servicos')}>{s.title}</a></li>)}</ul>
       </div>
       <div>
         <h2>Contato</h2>

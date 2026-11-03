@@ -1,6 +1,7 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import { u } from '../../lib/url';
 import Icon from '../../components/Icon.astro';
 import ContactForm from '../../components/ContactForm.astro';
 import PropertyCard from '../../components/PropertyCard.astro';
@@ -76,8 +77,8 @@ const jsonLd = [
   <section class="phero" style="padding-bottom: 2rem">
     <div class="wrap">
       <ol class="crumbs" aria-label="Você está em">
-        <li><a href="/">Início</a></li>
-        <li><a href="/imoveis">Imóveis</a></li>
+        <li><a href={u('/')}>Início</a></li>
+                <li><a href={u('/imoveis')}>Imóveis</a></li>
         <li aria-current="page">{imovel.neighborhood}</li>
       </ol>
       <span class="eyebrow">{PURPOSE_LABEL[imovel.purpose]} · {TYPE_LABEL[imovel.type]} · {imovel.neighborhood}</span>

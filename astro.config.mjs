@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://www.magdaimoveis.com',
+  base: process.env.SITE_BASE || '/',
   trailingSlash: 'never',
   build: { format: 'file' },
   integrations: [sitemap({ filter: (page) => !page.includes('/politica-de-privacidade') })],
