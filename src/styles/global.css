@@ -874,7 +874,7 @@ dl.hours dt { color: var(--ink-soft); } dl.hours dd { margin: 0; font-weight: 50
 .summary__text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; line-clamp: 6; overflow: hidden; }
 .summary__text p { margin: 0 0 .9rem; }
 .summary.is-open .summary__text { display: block; -webkit-line-clamp: unset; line-clamp: unset; overflow: visible; }
-.summary__toggle { display: inline-flex; align-items: center; gap: .45rem; padding: .35rem 0; font-weight: 600; color: var(--green); border-bottom: 1px solid var(--gold-bright); transition: gap .25s var(--ease); }
+.summary__toggle { background: none; border: 0; border-radius: 0; box-shadow: none; display: inline-flex; align-items: center; gap: .45rem; padding: .35rem 0; font-weight: 600; color: var(--green); transition: gap .25s var(--ease); }
 .summary__toggle:hover { gap: .7rem; }
 .summary__toggle svg { width: 1.05em; height: 1.05em; transition: transform .25s var(--ease); }
 .summary.is-open .summary__toggle svg { transform: rotate(-90deg); }
