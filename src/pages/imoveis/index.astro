@@ -1,6 +1,5 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { u } from '../../lib/url';
 import Icon from '../../components/Icon.astro';
 import PropertyCard from '../../components/PropertyCard.astro';
 import { getImoveis, TYPE_LABEL } from '../../lib/imoveis';
@@ -18,7 +17,6 @@ const types = [...new Set(all.map((i) => i.type))];
 >
   <section class="phero">
     <div class="wrap">
-      <ol class="crumbs" aria-label="Você está em"><li><a href={u('/')}>Início</a></li><li aria-current="page">Imóveis</li></ol>
       <span class="eyebrow">Nosso portfólio</span>
       <h1>Imóveis em Brasília</h1>
       <p class="lead">Casas e apartamentos de alto padrão selecionados pela equipe da Magda Imóveis.</p>
