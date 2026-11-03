@@ -28,7 +28,7 @@ import { breadcrumbs } from '../lib/schema';
             <h2 style="font-size:clamp(1.6rem,4vw,2.1rem)">{s.title}</h2>
             <div>
               <p>{s.text}</p>
-              <a class="link-arrow" href={whatsappUrl(`Olá! Gostaria de saber mais sobre o serviço de ${s.title.toLowerCase()}.`)} target="_blank" rel="noopener">Falar sobre este serviço <Icon name="arrow" /></a>
+              <a class="btn btn--service-ghost" href={whatsappUrl(`Olá! Gostaria de saber mais sobre o serviço de ${s.title.toLowerCase()}.`)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Falar sobre este serviço</a>
             </div>
           </li>
         ))}

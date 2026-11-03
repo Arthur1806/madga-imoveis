@@ -55,15 +55,21 @@ const featured = getFeatured(6);
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section section--alt regions">
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow">Onde atuamos</span>
         <h2>As melhores regiões de Brasília</h2>
         <p class="lead">Atendemos casas e apartamentos em diferentes regiões do Distrito Federal, com foco no Lago Sul.</p>
       </div>
-      <div class="chips">
-        {NEIGHBORHOODS.map((n) => <a class="chip" href={u(`/imoveis?bairro=${encodeURIComponent(n)}`)}>{n}</a>)}
+      <div class="regions__surface">
+        <div class="regions__top">
+          <p><strong>Atuação consultiva por região.</strong> Selecionamos imóveis alinhados ao seu perfil e ao momento da sua decisão.</p>
+          <a class="regions__focus" href={u('/imoveis?bairro=Lago%20Sul')}>Foco estratégico: Lago Sul</a>
+        </div>
+        <div class="regions__grid">
+          {NEIGHBORHOODS.map((n) => <a class="regions__chip" href={u(`/imoveis?bairro=${encodeURIComponent(n)}`)}>{n}</a>)}
+        </div>
       </div>
     </div>
   </section>
@@ -111,7 +117,7 @@ const featured = getFeatured(6);
           <span class="eyebrow">Serviços</span>
           <h2>Cuidamos de cada etapa</h2>
         </div>
-        <a class="link-arrow" href={u('/servicos')}>Conheça os serviços <Icon name="arrow" /></a>
+        <a class="btn btn--service" href={u('/servicos')}>Conheça os serviços <Icon name="arrow" /></a>
       </div>
       <ul class="rows">
         {SERVICES.map((s, i) => (
