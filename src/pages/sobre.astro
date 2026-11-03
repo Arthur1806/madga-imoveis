@@ -54,7 +54,15 @@ const timeline = [
         <h2>Do primeiro emprego à Magda Imóveis</h2>
       </div>
       <ol class="timeline">
-        {timeline.map((t) => <li><h3>{t.title}</h3><p>{t.text}</p></li>)}
+        {timeline.map((t, i) => (
+          <li>
+            <span class="timeline__idx">{String(i + 1).padStart(2, '0')}</span>
+            <div class="timeline__card">
+              <h3>{t.title}</h3>
+              <p>{t.text}</p>
+            </div>
+          </li>
+        ))}
       </ol>
     </div>
   </section>
