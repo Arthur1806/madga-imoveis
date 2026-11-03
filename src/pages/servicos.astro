@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
+import Icon from '../components/Icon.astro';
+import { SERVICES, whatsappUrl } from '../config/site';
+import { breadcrumbs } from '../lib/schema';
+
+const extra: Record<string, { icon: 'compass' | 'chart' | 'scale' | 'building'; points: string[] }> = {
+  'consultoria-imobiliaria': { icon: 'compass', points: ['Entendimento do seu perfil e momento', 'Curadoria de imóveis alinhados', 'Acompanhamento até a entrega das chaves'] },
+  'avaliacao-de-imoveis': { icon: 'chart', points: ['Análise comparativa do mercado local', 'Valor coerente com a região', 'Avaliação gratuita'] },
+  'assessoria-juridica': { icon: 'scale', points: ['Apoio na documentação', 'Segurança em cada etapa', 'Negociação com tranquilidade'] },
+  'administracao-de-locacao': { icon: 'building', points: ['Cuidado com o seu imóvel', 'Processo de locação organizado', 'Mais tranquilidade para o proprietário'] },
+};
+const steps = [
+  { t: 'Conversa inicial', d: 'Entendemos o seu objetivo e o seu momento.' },
+  { t: 'Estratégia', d: 'Definimos o melhor caminho para comprar, vender ou alugar.' },
+  { t: 'Execução', d: 'Cuidamos da busca, divulgação, visitas e negociação.' },
+  { t: 'Conclusão segura', d: 'Documentação em ordem e acompanhamento até o fim.' },
+];
+---
+<Base
+  title="Serviços imobiliários em Brasília"
+  description="Consultoria imobiliária, avaliação de imóveis, assessoria jurídica e administração de locação em Brasília-DF, com a Magda Imóveis."
+  jsonLd={breadcrumbs([{ name: 'Início', path: '/' }, { name: 'Serviços', path: '/servicos' }])}
+>
+  <section class="shero">
+    <div class="wrap shero__in">
+      <span class="eyebrow">Serviços</span>
+      <h1>Cuidamos de <em>cada etapa</em></h1>
+      <p class="lead">Da escolha do imóvel à documentação, com atendimento próximo e transparente.</p>
+      <div class="shero__ctas">
+        <a class="btn btn--gold btn--lg" href={whatsappUrl('Olá! Gostaria de falar com um consultor sobre os serviços da Magda Imóveis.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Falar com um consultor</a>
+        <a class="btn btn--ghost-light btn--lg" href="#servicos">Conhecer serviços <Icon name="arrow" /></a>
+      </div>
+      <ul class="shero__chips" aria-label="Áreas de atuação">
+        {SERVICES.map((s) => <li><a href={`#${s.slug}`}>{s.title}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="servicos">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">O que fazemos</span>
+        <h2>Soluções completas para o seu imóvel</h2>
+      </div>
+      <ul class="svc-grid">
+        {SERVICES.map((s, i) => (
+          <li class="svc" id={s.slug}>
+            <div class="svc__top">
+              <span class="svc__icon"><Icon name={extra[s.slug].icon} /></span>
+              <span class="svc__n">0{i + 1}</span>
+            </div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <ul class="svc__points">
+              {extra[s.slug].points.map((p) => <li><Icon name="check" /> {p}</li>)}
+            </ul>
+            <a class="svc__link" href={whatsappUrl(`Olá! Gostaria de saber mais sobre o serviço de ${s.title.toLowerCase()}.`)} target="_blank" rel="noopener">Falar sobre este serviço <Icon name="arrow" /></a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--dark steps">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Como trabalhamos</span>
+        <h2>Um processo claro, do início ao fim</h2>
+      </div>
+      <ol class="steps__list">
+        {steps.map((s, i) => (
+          <li><span class="steps__n">{i + 1}</span><h3>{s.t}</h3><p>{s.d}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="scta">
+        <div>
+          <span class="eyebrow">Avaliação gratuita</span>
+          <h2>Quanto vale o seu imóvel?</h2>
+          <p class="lead">Converse com um consultor e receba orientação para vender ou alugar.</p>
+        </div>
+        <div class="scta__btns">
+          <a class="btn btn--wa btn--lg" href={whatsappUrl('Olá! Gostaria de uma avaliação gratuita do meu imóvel.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Avaliação gratuita</a>
+          <a class="btn btn--ghost btn--lg" href={u('/contato')}>Enviar mensagem</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,26 @@
+---
+---
+<script>
+  const trackOf = (el: Element) => el.closest('[data-carousel]')!.querySelector<HTMLElement>('[data-track]')!;
+  const index = (t: HTMLElement) => Math.round(t.scrollLeft / t.clientWidth);
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest<HTMLElement>('[data-dir]');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const t = trackOf(btn);
+    const n = t.children.length;
+    const next = (index(t) + Number(btn.dataset.dir) + n) % n;
+    t.scrollTo({ left: next * t.clientWidth, behavior: 'smooth' });
+  });
+  const sync = (t: HTMLElement) => {
+    const box = t.closest<HTMLElement>('[data-carousel]')!;
+    const i = index(t);
+    const count = box.querySelector<HTMLElement>('[data-count]');
+    if (count) count.textContent = `${i + 1} / ${t.children.length}`;
+    box.querySelectorAll<HTMLElement>('[data-follow]').forEach((b) => { b.dataset.open = String(i); });
+  };
+  document.querySelectorAll<HTMLElement>('[data-track]').forEach((t) => {
+    t.addEventListener('scroll', () => sync(t), { passive: true });
+  });
+</script>
