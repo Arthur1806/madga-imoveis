@@ -1,5 +1,5 @@
 ---
-interface Props { name: 'whatsapp' | 'phone' | 'mail' | 'pin' | 'clock' | 'instagram' | 'arrow' | 'image' | 'filter' | 'close' | 'bed' | 'bath' | 'car' | 'area'; }
+interface Props { name: 'whatsapp' | 'phone' | 'mail' | 'pin' | 'clock' | 'instagram' | 'arrow' | 'image' | 'filter' | 'close' | 'bed' | 'bath' | 'car' | 'area' | 'share' | 'check' | 'home' | 'key' | 'link'; }
 const { name } = Astro.props;
 ---
 {name === 'whatsapp' && (
@@ -43,4 +43,19 @@ const { name } = Astro.props;
 )}
 {name === 'area' && (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14"/><path d="M5 17h14"/><path d="M8 7v3M12 7v2M16 7v3"/><path d="M8 14v3M12 15v2M16 14v3"/><path d="M4 7h2v10H4zM18 7h2v10h-2z"/></svg>
+)}
+{name === 'share' && (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.3 10.7 7.4-4.4M8.3 13.3l7.4 4.4"/></svg>
+)}
+{name === 'check' && (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+)}
+{name === 'home' && (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg>
+)}
+{name === 'key' && (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3M14 9l2 2"/></svg>
+)}
+{name === 'link' && (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.7l1-1"/></svg>
 )}

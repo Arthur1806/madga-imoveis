@@ -65,7 +65,6 @@ const featured = getFeatured(6);
       <div class="regions__surface">
         <div class="regions__top">
           <p><strong>Atuação consultiva por região.</strong> Selecionamos imóveis alinhados ao seu perfil e ao momento da sua decisão.</p>
-          <a class="regions__focus" href={u('/imoveis?bairro=Lago%20Sul')}>Foco estratégico: Lago Sul</a>
         </div>
         <div class="regions__grid">
           {NEIGHBORHOODS.map((n) => <a class="regions__chip" href={u(`/imoveis?bairro=${encodeURIComponent(n)}`)}>{n}</a>)}

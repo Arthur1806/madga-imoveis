@@ -107,9 +107,12 @@ const jsonLd = [
       <div class="detail" style="margin-top: 3rem">
         <div>
           <div class="detail__summary">
-            <div class="detail__tags">
-              <span class="detail__tag detail__tag--purpose">{PURPOSE_LABEL[imovel.purpose]}</span>
-              <span class="detail__tag">{TYPE_LABEL[imovel.type]}</span>
+            <div class="detail__summary-top">
+              <div class="detail__tags">
+                <span class="detail__tag detail__tag--purpose">{PURPOSE_LABEL[imovel.purpose]}</span>
+                <span class="detail__tag">{TYPE_LABEL[imovel.type]}</span>
+              </div>
+              <button class="btn btn--share" type="button" data-share data-title={imovel.title} aria-label="Compartilhar este imóvel"><Icon name="share" /> <span>Compartilhar</span></button>
             </div>
             <h1 class="detail__title">{imovel.title}</h1>
             <p class="detail__location"><Icon name="pin" /> {imovel.neighborhood}, {imovel.city}</p>
@@ -193,6 +196,23 @@ const jsonLd = [
 </Base>
 
 <script>
+  document.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((b) => {
+    const label = b.querySelector('span')!;
+    b.addEventListener('click', async () => {
+      const data = { title: b.dataset.title ?? document.title, text: b.dataset.title ?? '', url: location.href };
+      try {
+        if (navigator.share) { await navigator.share(data); return; }
+        await navigator.clipboard.writeText(data.url);
+      } catch (e) {
+        if ((e as Error).name === 'AbortError') return;
+        window.prompt('Copie o link do imóvel:', data.url);
+        return;
+      }
+      b.classList.add('is-done');
+      label.textContent = 'Link copiado!';
+      setTimeout(() => { b.classList.remove('is-done'); label.textContent = 'Compartilhar'; }, 2200);
+    });
+  });
   const dialog = document.getElementById('lb') as HTMLDialogElement | null;
   const raw = document.getElementById('gallery-data')?.textContent;
   if (dialog && raw) {
