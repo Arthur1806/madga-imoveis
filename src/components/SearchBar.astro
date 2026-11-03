@@ -1,0 +1,28 @@
+---
+import { getImoveis, TYPE_LABEL } from '../lib/imoveis';
+import Icon from './Icon.astro';
+const all = getImoveis();
+const neighborhoods = [...new Set(all.map((i) => i.neighborhood))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+const types = [...new Set(all.map((i) => i.type))];
+---
+<form class="search" action="/imoveis" method="get" role="search" aria-label="Buscar imóveis">
+  <div class="search__tabs" role="radiogroup" aria-label="Finalidade">
+    <label><input type="radio" name="finalidade" value="venda" checked /><span>Comprar</span></label>
+    <label><input type="radio" name="finalidade" value="aluguel" /><span>Alugar</span></label>
+  </div>
+  <div class="field">
+    <label for="s-bairro">Região</label>
+    <select class="select" id="s-bairro" name="bairro">
+      <option value="">Todas as regiões</option>
+      {neighborhoods.map((n) => <option value={n}>{n}</option>)}
+    </select>
+  </div>
+  <div class="field">
+    <label for="s-tipo">Tipo de imóvel</label>
+    <select class="select" id="s-tipo" name="tipo">
+      <option value="">Todos os tipos</option>
+      {types.map((t) => <option value={t}>{TYPE_LABEL[t]}</option>)}
+    </select>
+  </div>
+  <button class="btn btn--gold" type="submit">Buscar imóveis <Icon name="arrow" /></button>
+</form>

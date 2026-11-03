@@ -1,0 +1,206 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import PropertyCard from '../../components/PropertyCard.astro';
+import { DISCLAIMER, SITE, whatsappUrl } from '../../config/site';
+import { PURPOSE_LABEL, TYPE_LABEL, formatPrice, getImoveis, getPhotos, plainDescription, related, specs } from '../../lib/imoveis';
+import { breadcrumbs } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return getImoveis().map((imovel) => ({ params: { slug: imovel.slug }, props: { imovel } }));
+}
+
+const { imovel } = Astro.props;
+const photos = getPhotos(imovel);
+const specList = specs(imovel);
+const full = await Promise.all(photos.map((p) => getImage({ src: p, width: 1600, format: 'webp' })));
+const thumbs = await Promise.all(photos.map((p) => getImage({ src: p, width: 260, height: 195, fit: 'cover', format: 'webp' })));
+const og = photos[0] ? await getImage({ src: photos[0], width: 1200, height: 630, fit: 'cover', format: 'jpg' }) : null;
+const url = `${SITE.url}/imoveis/${imovel.slug}`;
+const waMsg = `Olá! Tenho interesse no imóvel "${imovel.title}" (${url}). Pode me passar mais informações?`;
+const similar = related(imovel);
+const gallery = full.map((f, i) => ({ src: f.src, alt: `${imovel.title} — foto ${i + 1}` }));
+
+const jsonLd = [
+  breadcrumbs([
+    { name: 'Início', path: '/' },
+    { name: 'Imóveis', path: '/imoveis' },
+    { name: imovel.title, path: `/imoveis/${imovel.slug}` },
+  ]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: imovel.title,
+    url,
+    description: plainDescription(imovel, 300),
+    datePosted: undefined,
+    image: og ? [new URL(og.src, SITE.url).href] : undefined,
+    about: {
+      '@type': imovel.type === 'apartamento' ? 'Apartment' : imovel.type === 'casa' ? 'House' : 'Place',
+      name: imovel.title,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: imovel.city,
+        addressRegion: 'DF',
+        addressCountry: 'BR',
+        streetAddress: imovel.neighborhood,
+      },
+      ...(imovel.area ? { floorSize: { '@type': 'QuantitativeValue', value: imovel.area, unitCode: 'MTK' } } : {}),
+      ...(imovel.bedrooms ? { numberOfBedrooms: imovel.bedrooms } : {}),
+      ...(imovel.bathrooms ? { numberOfBathroomsTotal: imovel.bathrooms } : {}),
+    },
+    ...(imovel.price
+      ? {
+          offers: {
+            '@type': 'Offer',
+            price: imovel.price,
+            priceCurrency: 'BRL',
+            availability: 'https://schema.org/InStock',
+            seller: { '@id': `${SITE.url}/#agency` },
+          },
+        }
+      : {}),
+  },
+];
+---
+<Base
+  title={`${imovel.title}`}
+  description={plainDescription(imovel)}
+  image={og?.src}
+  type="article"
+  jsonLd={jsonLd}
+  waMessage={waMsg}
+>
+  <section class="phero" style="padding-bottom: 2rem">
+    <div class="wrap">
+      <ol class="crumbs" aria-label="Você está em">
+        <li><a href="/">Início</a></li>
+        <li><a href="/imoveis">Imóveis</a></li>
+        <li aria-current="page">{imovel.neighborhood}</li>
+      </ol>
+      <span class="eyebrow">{PURPOSE_LABEL[imovel.purpose]} · {TYPE_LABEL[imovel.type]} · {imovel.neighborhood}</span>
+      <h1 style="font-size: clamp(2rem, 6vw, 3.4rem); max-width: 22ch">{imovel.title}</h1>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 2rem">
+    <div class="wrap">
+      <div class="gallery" id="gallery">
+        <div class="gallery__main">
+          {photos[0] ? (
+            <Image src={photos[0]} alt={gallery[0].alt} widths={[640, 960, 1280, 1600]} sizes="(min-width: 1200px) 1200px, 100vw" loading="eager" fetchpriority="high" />
+          ) : (
+            <div class="placeholder">Fotos em breve — fale com a equipe para receber o material completo.</div>
+          )}
+          {photos.length > 0 && (
+            <>
+              <button class="gallery__trigger" type="button" data-open="0" aria-label="Ampliar foto"></button>
+              <button class="gallery__btn" type="button" data-open="0"><Icon name="image" /> Ver {photos.length} {photos.length === 1 ? 'foto' : 'fotos'}</button>
+            </>
+          )}
+        </div>
+        {photos.length > 1 && (
+          <div class="gallery__thumbs">
+            {thumbs.slice(1, 7).map((t, i) => (
+              <button type="button" data-open={i + 1} aria-label={`Ver foto ${i + 2}`}><img src={t.src} alt="" width="260" height="195" loading="lazy" decoding="async" /></button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div class="detail" style="margin-top: 3rem">
+        <div>
+          <p class="detail__price">{formatPrice(imovel)}</p>
+          {specList.length > 0 && (
+            <dl class="detail__specs">
+              {specList.map((s) => <div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
+            </dl>
+          )}
+          <div class="prose">
+            {imovel.description.map((b) =>
+              b.type === 'h' ? <h2>{b.text}</h2> : b.type === 'ul' ? <ul>{b.items.map((it) => <li>{it}</li>)}</ul> : <p>{b.text}</p>
+            )}
+            {imovel.features.length > 0 && (
+              <>
+                <h2>Características</h2>
+                <ul>{imovel.features.map((f) => <li>{f}</li>)}</ul>
+              </>
+            )}
+            {imovel.totalPhotosOnOldSite > photos.length && (
+              <p class="notice">Há mais fotos deste imóvel. <a href={whatsappUrl(`Olá! Gostaria de ver mais fotos do imóvel "${imovel.title}".`)} target="_blank" rel="noopener" style="text-decoration:underline">Peça o material completo pelo WhatsApp</a>.</p>
+            )}
+            <p class="disclaimer">{DISCLAIMER}</p>
+          </div>
+        </div>
+
+        <aside class="aside" aria-labelledby="aside-title">
+          <h2 id="aside-title">Tenho interesse</h2>
+          <p style="margin:0;color:var(--ink-soft)">Fale com um consultor sobre este imóvel e agende sua visita.</p>
+          <a class="btn btn--wa btn--block" href={whatsappUrl(waMsg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Conversar no WhatsApp</a>
+          <a class="btn btn--ghost btn--block" href={SITE.phone.href}><Icon name="phone" /> {SITE.phone.display}</a>
+          <details style="margin-top:.5rem">
+            <summary style="cursor:pointer;font-weight:500;padding:.5rem 0">Prefiro enviar uma mensagem</summary>
+            <div style="margin-top:.75rem"><ContactForm compact idPrefix="im" subject={`Tenho interesse no imóvel "${imovel.title}".`} /></div>
+          </details>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {similar.length > 0 && (
+    <section class="section section--alt">
+      <div class="wrap">
+        <div class="section-head"><span class="eyebrow">Veja também</span><h2>Outros imóveis</h2></div>
+        <ul class="grid grid--3">{similar.map((i) => <PropertyCard imovel={i} />)}</ul>
+      </div>
+    </section>
+  )}
+
+  <dialog class="lb" id="lb" aria-label="Galeria de fotos">
+    <div class="lb__top"><span id="lb-count"></span><button type="button" id="lb-close" aria-label="Fechar galeria"><Icon name="close" /></button></div>
+    <div class="lb__stage">
+      <img id="lb-img" alt="" />
+      <button type="button" class="lb__prev" id="lb-prev" aria-label="Foto anterior">‹</button>
+      <button type="button" class="lb__next" id="lb-next" aria-label="Próxima foto">›</button>
+    </div>
+    <div class="lb__cap" id="lb-cap"></div>
+  </dialog>
+  <script type="application/json" id="gallery-data" set:html={JSON.stringify(gallery)} />
+</Base>
+
+<script>
+  const dialog = document.getElementById('lb') as HTMLDialogElement | null;
+  const raw = document.getElementById('gallery-data')?.textContent;
+  if (dialog && raw) {
+    const items: { src: string; alt: string }[] = JSON.parse(raw);
+    const img = document.getElementById('lb-img') as HTMLImageElement;
+    const count = document.getElementById('lb-count')!;
+    const cap = document.getElementById('lb-cap')!;
+    let i = 0;
+    const show = (n: number) => {
+      i = (n + items.length) % items.length;
+      img.src = items[i].src;
+      img.alt = items[i].alt;
+      count.textContent = `${i + 1} / ${items.length}`;
+      cap.textContent = items[i].alt;
+    };
+    document.querySelectorAll<HTMLElement>('[data-open]').forEach((b) =>
+      b.addEventListener('click', () => { show(Number(b.dataset.open)); dialog.showModal(); })
+    );
+    document.getElementById('lb-prev')!.addEventListener('click', () => show(i - 1));
+    document.getElementById('lb-next')!.addEventListener('click', () => show(i + 1));
+    document.getElementById('lb-close')!.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(i - 1);
+      if (e.key === 'ArrowRight') show(i + 1);
+    });
+    let x0 = 0;
+    dialog.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    dialog.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>

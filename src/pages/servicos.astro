@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { SERVICES, whatsappUrl } from '../config/site';
+import { breadcrumbs } from '../lib/schema';
+---
+<Base
+  title="Serviços imobiliários em Brasília"
+  description="Consultoria imobiliária, avaliação de imóveis, assessoria jurídica e administração de locação em Brasília-DF, com a Magda Imóveis."
+  jsonLd={breadcrumbs([{ name: 'Início', path: '/' }, { name: 'Serviços', path: '/servicos' }])}
+>
+  <section class="phero">
+    <div class="wrap">
+      <ol class="crumbs" aria-label="Você está em"><li><a href="/">Início</a></li><li aria-current="page">Serviços</li></ol>
+      <span class="eyebrow">Serviços</span>
+      <h1>Cuidamos de cada etapa</h1>
+      <p class="lead">Da escolha do imóvel à documentação, com atendimento próximo e transparente.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="rows">
+        {SERVICES.map((s, i) => (
+          <li class="row" id={s.slug}>
+            <span class="row__n">0{i + 1}</span>
+            <h2 style="font-size:clamp(1.6rem,4vw,2.1rem)">{s.title}</h2>
+            <div>
+              <p>{s.text}</p>
+              <a class="link-arrow" href={whatsappUrl(`Olá! Gostaria de saber mais sobre o serviço de ${s.title.toLowerCase()}.`)} target="_blank" rel="noopener">Falar sobre este serviço <Icon name="arrow" /></a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt cta">
+    <div class="wrap">
+      <span class="eyebrow">Avaliação gratuita</span>
+      <h2>Quanto vale o seu imóvel?</h2>
+      <p class="lead" style="margin-top:1.25rem">Converse com um consultor e receba orientação para vender ou alugar.</p>
+      <div class="cta__btns">
+        <a class="btn btn--wa" href={whatsappUrl('Olá! Gostaria de uma avaliação gratuita do meu imóvel.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Avaliação gratuita</a>
+        <a class="btn btn--ghost" href="/contato">Enviar mensagem</a>
+      </div>
+    </div>
+  </section>
+</Base>

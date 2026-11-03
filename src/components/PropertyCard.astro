@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import { PURPOSE_LABEL, TYPE_LABEL, formatPrice, getPhotos, specs, type Imovel } from '../lib/imoveis';
+interface Props { imovel: Imovel; eager?: boolean }
+const { imovel, eager = false } = Astro.props;
+const cover = getPhotos(imovel)[0];
+const s = specs(imovel);
+---
+<li
+  class="card"
+  data-purpose={imovel.purpose}
+  data-type={imovel.type}
+  data-neighborhood={imovel.neighborhood}
+  data-price={imovel.price ?? 0}
+  data-bedrooms={imovel.bedrooms ?? 0}
+>
+  <div class="card__media">
+    {cover ? (
+      <Image src={cover} alt={`${TYPE_LABEL[imovel.type]} em ${imovel.neighborhood}, Brasília: ${imovel.title}`} widths={[400, 640, 900]} sizes="(min-width: 960px) 380px, (min-width: 640px) 45vw, 92vw" loading={eager ? 'eager' : 'lazy'} />
+    ) : (
+      <div class="placeholder">Foto em breve</div>
+    )}
+    <span class="card__tag">{PURPOSE_LABEL[imovel.purpose]} · {TYPE_LABEL[imovel.type]}</span>
+  </div>
+  <div class="card__body">
+    <span class="card__loc">{imovel.neighborhood}</span>
+    <h3 class="card__title"><a class="stretch" href={`/imoveis/${imovel.slug}`}>{imovel.title}</a></h3>
+    {s.length > 0 && (
+      <div class="specs">{s.map((i) => <span><strong>{i.value}</strong> {i.label.toLowerCase()}</span>)}</div>
+    )}
+    <p class="card__price">{formatPrice(imovel)}</p>
+  </div>
+</li>

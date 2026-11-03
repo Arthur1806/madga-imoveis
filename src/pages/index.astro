@@ -1,0 +1,138 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import SearchBar from '../components/SearchBar.astro';
+import PropertyCard from '../components/PropertyCard.astro';
+import heroImg from '../assets/brand/hero-house.jpg';
+import magda from '../assets/brand/magda-da-mata.jpg';
+import { DIFFERENTIALS, NEIGHBORHOODS, SERVICES, SITE, STATS, whatsappUrl } from '../config/site';
+import { getFeatured } from '../lib/imoveis';
+import { agentSchema } from '../lib/schema';
+
+const featured = getFeatured(6);
+---
+<Base
+  title="Magda Imóveis | Imóveis de alto padrão em Brasília"
+  description="Imobiliária no Lago Sul, Brasília-DF. Compra, venda e locação de casas e apartamentos de alto padrão com atendimento consultivo e segurança jurídica."
+  jsonLd={agentSchema}
+>
+  <section class="hero">
+    <div class="hero__grid">
+      <div class="hero__body">
+        <span class="eyebrow">Imobiliária no Lago Sul · Brasília-DF</span>
+        <h1>Imóveis de alto padrão em Brasília, com <em>atendimento consultivo.</em></h1>
+        <p class="lead">Compra, venda e locação com proximidade, transparência e segurança jurídica, do primeiro contato à entrega das chaves.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--gold" href="/imoveis">Encontre seu próximo imóvel <Icon name="arrow" /></a>
+          <a class="btn btn--ghost-light" href={whatsappUrl('Olá! Gostaria de falar com um especialista da Magda Imóveis.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Fale com um especialista</a>
+        </div>
+        <p class="hero__note">{SITE.creci} · Atendimento de segunda a sexta, {SITE.hours[0].time}</p>
+      </div>
+      <div class="hero__media">
+        <Image src={heroImg} alt="Residência moderna com piscina ao entardecer" widths={[640, 1024]} sizes="(min-width: 960px) 50vw, 100vw" loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-block: clamp(2rem, 5vw, 3rem); margin-top: -1px;" aria-label="Buscar imóveis">
+    <div class="wrap"><SearchBar /></div>
+  </section>
+
+  <section class="section" style="padding-top: clamp(2rem,5vw,3rem)">
+    <div class="wrap">
+      <div class="section-head section-head__row">
+        <div>
+          <span class="eyebrow">Imóveis em destaque</span>
+          <h2>Seleção da Magda</h2>
+        </div>
+        <a class="link-arrow" href="/imoveis">Ver todos os imóveis <Icon name="arrow" /></a>
+      </div>
+      <ul class="grid grid--3">
+        {featured.map((i, idx) => <PropertyCard imovel={i} eager={idx < 3} />)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Onde atuamos</span>
+        <h2>As melhores regiões de Brasília</h2>
+        <p class="lead">Atendemos casas e apartamentos em diferentes regiões do Distrito Federal, com foco no Lago Sul.</p>
+      </div>
+      <div class="chips">
+        {NEIGHBORHOODS.map((n) => <a class="chip" href={`/imoveis?bairro=${encodeURIComponent(n)}`}>{n}</a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split__media split__media--frame">
+        <Image src={magda} alt="Magda Alves da Mata, fundadora da Magda Imóveis" widths={[480, 800, 1100]} sizes="(min-width: 960px) 520px, 90vw" loading="lazy" />
+      </div>
+      <div>
+        <span class="eyebrow">Quem está à frente</span>
+        <h2>Uma imobiliária com o nome e o olhar de quem a conduz.</h2>
+        <p class="lead" style="margin-top:1.25rem">Magda Alves da Mata comanda a Magda Imóveis, no Lago Sul, com uma trajetória construída no atendimento direto a cada cliente.</p>
+        <ul class="rows" style="margin-block:2rem">
+          {DIFFERENTIALS.map((d) => (
+            <li class="row row--2">
+              <h3>{d.title}</h3>
+              <p>{d.text}</p>
+            </li>
+          ))}
+        </ul>
+        <a class="btn btn--ghost" href="/sobre">Conheça nossa história</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">A Magda em números</span>
+        <h2>Confiança construída ao longo do tempo</h2>
+      </div>
+      <dl class="stats">
+        {STATS.map((s) => (
+          <div class="stat"><dt class="stat__l" style="order:2">{s.label}</dt><dd class="stat__v" style="margin:0">{s.value}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head section-head__row">
+        <div>
+          <span class="eyebrow">Serviços</span>
+          <h2>Cuidamos de cada etapa</h2>
+        </div>
+        <a class="link-arrow" href="/servicos">Conheça os serviços <Icon name="arrow" /></a>
+      </div>
+      <ul class="rows">
+        {SERVICES.map((s, i) => (
+          <li class="row">
+            <span class="row__n">0{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt cta">
+    <div class="wrap">
+      <span class="eyebrow">Quer vender ou alugar?</span>
+      <h2>Avalie seu imóvel com quem conhece a região.</h2>
+      <p class="lead" style="margin-top:1.25rem">Solicite uma avaliação gratuita e converse com um consultor da Magda Imóveis.</p>
+      <div class="cta__btns">
+        <a class="btn btn--wa" href={whatsappUrl('Olá! Gostaria de uma avaliação gratuita do meu imóvel.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Avaliação gratuita</a>
+        <a class="btn btn--ghost" href="/contato">Outras formas de contato</a>
+      </div>
+    </div>
+  </section>
+</Base>

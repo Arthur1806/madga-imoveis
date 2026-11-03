@@ -1,0 +1,122 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import magda from '../assets/brand/magda-da-mata.jpg';
+import { DIFFERENTIALS, SITE, STATS, VALUES, whatsappUrl } from '../config/site';
+import { agentSchema, breadcrumbs } from '../lib/schema';
+
+const timeline = [
+  { title: 'Aos 14 anos', text: 'Magda Alves da Mata inicia a carreira na área de vendas e descobre a vocação que a acompanharia por toda a vida.' },
+  { title: 'Comércio, veículos e consórcios', text: 'Passa pelo comércio, pelas vendas de veículos e pelo setor automotivo e se destaca em consórcios, onde, como representante do Consórcio CCA, lidera a própria equipe de vendas.' },
+  { title: 'Corretora de imóveis', text: 'Inicia a carreira imobiliária na tradicional JC Gontijo Imóveis, onde desenvolve sua expertise em negociações.' },
+  { title: String(SITE.founded), text: 'Nasce a MAGDA Imóveis, com foco em imóveis residenciais de alto padrão em Brasília e no Distrito Federal, com forte presença no Lago Sul.' },
+  { title: 'Hoje', text: 'Sede no Lago Sul e espaço exclusivo de atendimento na SIX Sport Life, na QI 15, com conforto, discrição e acolhimento.' },
+];
+---
+<Base
+  title="Sobre a Magda Imóveis | Nossa história"
+  description="Conheça a Magda Imóveis e a trajetória de Magda Alves da Mata: imóveis de alto padrão em Brasília, com sede no Lago Sul e atendimento personalizado."
+  jsonLd={[agentSchema, breadcrumbs([{ name: 'Início', path: '/' }, { name: 'Sobre', path: '/sobre' }])]}
+>
+  <section class="hero">
+    <div class="hero__grid">
+      <div class="hero__body">
+        <span class="eyebrow">Sobre a Magda</span>
+        <h1>Imóveis de valor exigem <em>atendimento à altura.</em></h1>
+        <p class="lead">Desde {SITE.founded}, a MAGDA Imóveis atua com imóveis residenciais de alto padrão em Brasília e no Distrito Federal, com forte presença no Lago Sul. Nosso foco é qualidade: na curadoria, no atendimento e na relação com cada cliente.</p>
+        <p class="hero__note">Magda Alves da Mata · Fundadora, MAGDA Imóveis</p>
+      </div>
+      <div class="hero__media">
+        <Image src={magda} alt="Magda Alves da Mata, fundadora da Magda Imóveis" widths={[600, 900, 1200]} sizes="(min-width: 960px) 50vw, 100vw" loading="eager" fetchpriority="high" style="object-position: 50% 25%" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Nossa história</span>
+        <h2>Muito além dos imóveis.</h2>
+      </div>
+      <div>
+        <p class="lead">De vendedora aos 14 anos a uma das profissionais mais respeitadas do mercado imobiliário de Brasília, Magda construiu uma trajetória marcada pela determinação e pela busca da excelência.</p>
+        <p>Para ela, vender um imóvel vai muito além de concluir uma negociação: cada imóvel representa uma história, uma conquista e um sonho. Essa visão humanizada tornou-se sua marca registrada, com atendimento personalizado, pós-venda cuidadoso e compromisso com a ética e a transparência.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">Trajetória</span>
+        <h2>Do primeiro emprego à Magda Imóveis</h2>
+      </div>
+      <ol class="timeline">
+        {timeline.map((t) => <li><h3>{t.title}</h3><p>{t.text}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" style="max-width: 56rem">
+      <blockquote class="quote">
+        “Acredito que o verdadeiro sucesso não está apenas nas conquistas que acumulamos, mas nas vidas que tocamos ao longo do caminho. Minha história foi construída com trabalho, fé, família e amor pelas pessoas. E é isso que continuo levando para tudo o que faço.”
+        <cite>Magda Alves da Mata</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="wrap">
+      <dl class="stats">
+        {STATS.map((s) => (
+          <div class="stat"><dt class="stat__l">{s.label}</dt><dd class="stat__v" style="margin:0">{s.value}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Nossos valores</span>
+        <h2>O que orienta cada negociação</h2>
+      </div>
+      <ul class="rows">
+        {VALUES.map((v, i) => (
+          <li class="row">
+            <span class="row__n">0{i + 1}</span>
+            <h3>{v.title}</h3>
+            <p>{v.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Diferenciais</span>
+        <h2>Como trabalhamos</h2>
+      </div>
+      <ul class="grid grid--3">
+        {DIFFERENTIALS.map((d) => (
+          <li class="card"><div class="card__body"><h3>{d.title}</h3><p style="margin:0;color:var(--ink-soft)">{d.text}</p></div></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section cta">
+    <div class="wrap">
+      <span class="eyebrow">Vamos conversar</span>
+      <h2>Fale com um consultor da Magda.</h2>
+      <div class="cta__btns">
+        <a class="btn btn--primary" href="/imoveis">Explorar imóveis</a>
+        <a class="btn btn--wa" href={whatsappUrl('Olá! Gostaria de falar com um consultor da Magda Imóveis.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Falar com um consultor</a>
+      </div>
+    </div>
+  </section>
+</Base>
