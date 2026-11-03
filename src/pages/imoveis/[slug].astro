@@ -22,6 +22,13 @@ const url = `${SITE.url}/imoveis/${imovel.slug}`;
 const waMsg = `Olá! Tenho interesse no imóvel "${imovel.title}" (${url}). Pode me passar mais informações?`;
 const similar = related(imovel);
 const gallery = full.map((f, i) => ({ src: f.src, alt: `${imovel.title} — foto ${i + 1}` }));
+const specIcon = (label: string): 'bed' | 'bath' | 'car' | 'area' => {
+  const key = label.toLowerCase();
+  if (key.includes('quarto')) return 'bed';
+  if (key.includes('banheiro')) return 'bath';
+  if (key.includes('vaga')) return 'car';
+  return 'area';
+};
 
 const jsonLd = [
   breadcrumbs([
@@ -73,14 +80,7 @@ const jsonLd = [
   jsonLd={jsonLd}
   waMessage={waMsg}
 >
-  <section class="phero" style="padding-bottom: 2rem">
-    <div class="wrap">
-      <span class="eyebrow">{PURPOSE_LABEL[imovel.purpose]} · {TYPE_LABEL[imovel.type]} · {imovel.neighborhood}</span>
-      <h1 style="font-size: clamp(2rem, 6vw, 3.4rem); max-width: 22ch">{imovel.title}</h1>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top: 2rem">
+  <section class="section detail-page">
     <div class="wrap">
       <div class="gallery" id="gallery">
         <div class="gallery__main">
@@ -107,12 +107,16 @@ const jsonLd = [
 
       <div class="detail" style="margin-top: 3rem">
         <div>
-          <div class="detail__head">
-            <div class="detail__price-wrap">
-              <p class="detail__kicker">Valor de referência</p>
-              <p class="detail__price">{formatPrice(imovel)}</p>
-              <p class="detail__sub">{PURPOSE_LABEL[imovel.purpose]} · {TYPE_LABEL[imovel.type]} · {imovel.neighborhood}</p>
+          <div class="detail__summary">
+            <div class="detail__tags">
+              <span class="detail__tag detail__tag--purpose">{PURPOSE_LABEL[imovel.purpose]}</span>
+              <span class="detail__tag">{TYPE_LABEL[imovel.type]}</span>
             </div>
+            <h1 class="detail__title">{imovel.title}</h1>
+            <p class="detail__location"><Icon name="pin" /> {imovel.neighborhood}, {imovel.city}</p>
+            <p class="detail__price">{formatPrice(imovel)}</p>
+          </div>
+          <div class="detail__head">
             <div class="detail__actions">
               <a class="btn btn--wa btn--block" href={whatsappUrl(waMsg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Tenho interesse</a>
               <a class="btn btn--ghost btn--block" href={SITE.phone.href}><Icon name="phone" /> Ligar agora</a>
@@ -120,7 +124,15 @@ const jsonLd = [
           </div>
           {specList.length > 0 && (
             <dl class="detail__specs">
-              {specList.map((s) => <div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
+              {specList.map((s) => (
+                <div>
+                  <dt>
+                    <span class="detail__spec-icon"><Icon name={specIcon(s.label)} /></span>
+                    <span>{s.label}</span>
+                  </dt>
+                  <dd>{s.value}</dd>
+                </div>
+              ))}
             </dl>
           )}
           <div class="prose detail__content">
