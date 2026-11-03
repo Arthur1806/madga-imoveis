@@ -2,9 +2,11 @@
 import { Image } from 'astro:assets';
 import { PURPOSE_LABEL, TYPE_LABEL, formatPrice, getPhotos, specs, type Imovel } from '../lib/imoveis';
 import { u } from '../lib/url';
+import Icon from './Icon.astro';
+import CarouselScript from './CarouselScript.astro';
 interface Props { imovel: Imovel; eager?: boolean }
 const { imovel, eager = false } = Astro.props;
-const cover = getPhotos(imovel)[0];
+const photos = getPhotos(imovel).slice(0, 5);
 const s = specs(imovel);
 ---
 <li
@@ -15,11 +17,22 @@ const s = specs(imovel);
   data-price={imovel.price ?? 0}
   data-bedrooms={imovel.bedrooms ?? 0}
 >
-  <div class="card__media">
-    {cover ? (
-      <Image src={cover} alt={`${TYPE_LABEL[imovel.type]} em ${imovel.neighborhood}, Brasília: ${imovel.title}`} widths={[400, 640, 900]} sizes="(min-width: 960px) 380px, (min-width: 640px) 45vw, 92vw" loading={eager ? 'eager' : 'lazy'} />
+  <div class="card__media" data-carousel>
+    {photos.length > 0 ? (
+      <div class="card__track" data-track>
+        {photos.map((p, i) => (
+          <Image src={p} alt={i === 0 ? `${TYPE_LABEL[imovel.type]} em ${imovel.neighborhood}, Brasília: ${imovel.title}` : `${imovel.title} - foto ${i + 1}`} widths={[400, 640, 900]} sizes="(min-width: 960px) 380px, (min-width: 640px) 45vw, 92vw" loading={eager && i === 0 ? 'eager' : 'lazy'} />
+        ))}
+      </div>
     ) : (
       <div class="placeholder">Foto em breve</div>
+    )}
+    {photos.length > 1 && (
+      <>
+        <button class="car__arrow car__arrow--prev" type="button" data-dir="-1" aria-label="Foto anterior"><Icon name="arrow" /></button>
+        <button class="car__arrow car__arrow--next" type="button" data-dir="1" aria-label="Próxima foto"><Icon name="arrow" /></button>
+        <span class="car__count" data-count>1 / {photos.length}</span>
+      </>
     )}
     <span class="card__tag">{PURPOSE_LABEL[imovel.purpose]} · {TYPE_LABEL[imovel.type]}</span>
   </div>
@@ -35,3 +48,4 @@ const s = specs(imovel);
     </div>
   </div>
 </li>
+<CarouselScript />

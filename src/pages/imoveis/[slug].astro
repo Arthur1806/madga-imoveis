@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import ContactForm from '../../components/ContactForm.astro';
 import PropertyCard from '../../components/PropertyCard.astro';
+import CarouselScript from '../../components/CarouselScript.astro';
 import { DISCLAIMER, SITE, whatsappUrl } from '../../config/site';
 import { PURPOSE_LABEL, TYPE_LABEL, formatPrice, getImoveis, getPhotos, plainDescription, related, specs } from '../../lib/imoveis';
 import { breadcrumbs } from '../../lib/schema';
@@ -90,17 +91,27 @@ const middle = blocks.slice(start, end);
   <section class="section detail-page">
     <div class="wrap">
       <div class="gallery" id="gallery">
-        <div class="gallery__main">
-          {photos[0] ? (
-            <Image src={photos[0]} alt={gallery[0].alt} widths={[640, 960, 1280, 1600]} sizes="(min-width: 1200px) 1200px, 100vw" loading="eager" fetchpriority="high" />
+        <div class="gallery__main" data-carousel>
+          {photos.length > 0 ? (
+            <div class="gallery__track" data-track>
+              {photos.map((p, i) => (
+                <button class="gallery__slide" type="button" data-open={i} aria-label="Ampliar foto">
+                  <Image src={p} alt={gallery[i].alt} widths={[640, 960, 1280, 1600]} sizes="(min-width: 1200px) 1200px, 100vw" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} />
+                </button>
+              ))}
+            </div>
           ) : (
             <div class="placeholder">Fotos em breve — fale com a equipe para receber o material completo.</div>
           )}
-          {photos.length > 0 && (
+          {photos.length > 1 && (
             <>
-              <button class="gallery__trigger" type="button" data-open="0" aria-label="Ampliar foto"></button>
-              <button class="gallery__btn" type="button" data-open="0"><Icon name="image" /> Ver {photos.length} {photos.length === 1 ? 'foto' : 'fotos'}</button>
+              <button class="car__arrow car__arrow--prev" type="button" data-dir="-1" aria-label="Foto anterior"><Icon name="arrow" /></button>
+              <button class="car__arrow car__arrow--next" type="button" data-dir="1" aria-label="Próxima foto"><Icon name="arrow" /></button>
+              <span class="car__count" data-count>1 / {photos.length}</span>
             </>
+          )}
+          {photos.length > 0 && (
+            <button class="gallery__btn" type="button" data-open="0" data-follow><Icon name="image" /> Ver {photos.length} {photos.length === 1 ? 'foto' : 'fotos'}</button>
           )}
         </div>
         {photos.length > 1 && (
@@ -120,7 +131,7 @@ const middle = blocks.slice(start, end);
                 <span class="detail__tag detail__tag--purpose">{PURPOSE_LABEL[imovel.purpose]}</span>
                 <span class="detail__tag">{TYPE_LABEL[imovel.type]}</span>
               </div>
-              <button class="btn btn--share" type="button" data-share data-title={imovel.title} aria-label="Compartilhar este imóvel"><Icon name="share" /> <span>Compartilhar</span></button>
+              <button class="btn btn--share" type="button" data-share data-title={imovel.title} aria-label="Compartilhar este imóvel" title="Compartilhar"><Icon name="share" /><Icon name="check" /></button>
             </div>
             <h1 class="detail__title">{imovel.title}</h1>
             <p class="detail__location"><Icon name="pin" /> {imovel.neighborhood}, {imovel.city}</p>
@@ -211,6 +222,7 @@ const middle = blocks.slice(start, end);
     <div class="lb__cap" id="lb-cap"></div>
   </dialog>
   <script type="application/json" id="gallery-data" set:html={JSON.stringify(gallery)} />
+  <CarouselScript />
 </Base>
 
 <script>
@@ -231,7 +243,6 @@ const middle = blocks.slice(start, end);
     addEventListener('resize', check);
   });
   document.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((b) => {
-    const label = b.querySelector('span')!;
     b.addEventListener('click', async () => {
       const data = { title: b.dataset.title ?? document.title, text: b.dataset.title ?? '', url: location.href };
       try {
@@ -243,8 +254,8 @@ const middle = blocks.slice(start, end);
         return;
       }
       b.classList.add('is-done');
-      label.textContent = 'Link copiado!';
-      setTimeout(() => { b.classList.remove('is-done'); label.textContent = 'Compartilhar'; }, 2200);
+      b.title = 'Link copiado!';
+      setTimeout(() => { b.classList.remove('is-done'); b.title = 'Compartilhar'; }, 2200);
     });
   });
   const dialog = document.getElementById('lb') as HTMLDialogElement | null;
