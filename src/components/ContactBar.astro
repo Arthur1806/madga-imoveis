@@ -1,0 +1,12 @@
+---
+import { SITE, whatsappUrl } from '../config/site';
+import Icon from './Icon.astro';
+interface Props { message?: string }
+const { message = 'Olá! Vim pelo site da Magda Imóveis e gostaria de atendimento.' } = Astro.props;
+const wa = whatsappUrl(message);
+---
+<div class="bar">
+  <a href={wa} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+  <a href={SITE.phone.href}><Icon name="phone" /> Ligar</a>
+</div>
+<a class="wa-float" href={wa} target="_blank" rel="noopener" aria-label="Conversar no WhatsApp"><Icon name="whatsapp" /></a>

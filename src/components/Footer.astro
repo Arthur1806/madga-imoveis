@@ -1,0 +1,41 @@
+---
+import { NAV, SERVICES, SITE } from '../config/site';
+import { u } from '../lib/url';
+const a = SITE.address;
+---
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <img class="footer__logo" src={u('/brand/magda-logo.png')} alt="Magda Imóveis" width="608" height="196" loading="lazy" />
+        <p>{SITE.tagline}</p>
+        <p>Imóveis de alto padrão em Brasília-DF.</p>
+      </div>
+      <div>
+        <h2>Navegação</h2>
+        <ul>
+          {NAV.map((l) => <li><a href={u(l.href)}>{l.label}</a></li>)}
+                    <li><a href={u('/politica-de-privacidade')}>Política de privacidade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Serviços</h2>
+        <ul>{SERVICES.map((s) => <li><a href={u('/servicos')}>{s.title}</a></li>)}</ul>
+      </div>
+      <div>
+        <h2>Contato</h2>
+        <ul>
+          <li><a href={`https://wa.me/${SITE.whatsapp.number}`} target="_blank" rel="noopener">WhatsApp {SITE.whatsapp.display}</a></li>
+          <li><a href={SITE.phone.href}>Tel. {SITE.phone.display}</a></li>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+          <li><a href={SITE.instagram.url} target="_blank" rel="noopener">Instagram {SITE.instagram.handle}</a></li>
+          <li><a href={a.mapsUrl} target="_blank" rel="noopener">{a.street} — {a.neighborhood}, {a.city}-{a.state}, CEP {a.postalCode}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>© {new Date().getFullYear()} {SITE.name} · {SITE.legalName} · CNPJ {SITE.cnpj} · {SITE.creci}</span>
+      <span>{SITE.hours[0].days}, {SITE.hours[0].time} · {SITE.hours[1].days}, {SITE.hours[1].time}</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site';
+---
+<Base title="Política de privacidade" description="Como a Magda Imóveis trata os dados enviados pelos formulários e canais de contato do site." noindex>
+  <section class="phero">
+    <div class="wrap">
+      <span class="eyebrow">Legal</span>
+      <h1>Política de privacidade</h1>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap prose">
+      <p class="notice"><strong>Texto provisório.</strong> Esta política deve ser revisada e aprovada pela {SITE.name} (ou por seu assessor jurídico) antes da publicação.</p>
+      <h2>Quais dados coletamos</h2>
+      <p>Ao usar o formulário de contato, coletamos o nome, o telefone, o e-mail (opcional) e a mensagem que você informar, apenas para responder ao seu atendimento.</p>
+      <h2>Como usamos</h2>
+      <p>Os dados são usados exclusivamente para entrar em contato com você sobre sua solicitação de compra, venda ou locação de imóveis.</p>
+      <h2>WhatsApp</h2>
+      <p>Ao clicar nos botões de WhatsApp, você é direcionado ao aplicativo, sujeito aos termos e à política de privacidade do WhatsApp.</p>
+      <h2>Seus direitos</h2>
+      <p>Você pode solicitar acesso, correção ou exclusão dos seus dados pelo e-mail <a href={`mailto:${SITE.email}`} style="text-decoration:underline">{SITE.email}</a>.</p>
+      <p>{SITE.legalName} · CNPJ {SITE.cnpj}</p>
+    </div>
+  </section>
+</Base>

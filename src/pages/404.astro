@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/url';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Página não encontrada" description="A página que você procura não foi encontrada." noindex>
+  <section class="section cta">
+    <div class="wrap">
+      <span class="eyebrow">Erro 404</span>
+      <h1 style="font-size:clamp(2.2rem,7vw,3.5rem)">Página não encontrada</h1>
+      <p class="lead" style="margin-top:1.25rem">O endereço pode ter mudado. Explore nossos imóveis ou fale com a equipe.</p>
+      <div class="cta__btns">
+        <a class="btn btn--primary"         href={u('/imoveis')}>Ver imóveis <Icon name="arrow" /></a>
+                <a class="btn btn--ghost" href={u('/')}>Página inicial</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,43 @@
+---
+import { NAV, SITE, whatsappUrl } from '../config/site';
+import Icon from './Icon.astro';
+import { u, stripBase } from '../lib/url';
+const current = stripBase(Astro.url.pathname);
+const isActive = (href: string) => current === href || current.startsWith(href + '/');
+---
+<header class="header">
+  <div class="wrap header__in">
+    <a class="header__logo" href={u('/')} aria-label="Magda Imóveis — página inicial">
+      <img src={u('/brand/magda-logo.png')} alt="Magda Imóveis" width="608" height="196" />
+    </a>
+    <nav class="nav" aria-label="Principal">
+      {NAV.map((l) => <a href={u(l.href)} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>)}
+    </nav>
+    <a class="btn btn--primary header__cta" href={whatsappUrl('Olá! Gostaria de falar com um especialista da Magda Imóveis.')} target="_blank" rel="noopener">
+      <Icon name="whatsapp" /> Fale com um especialista
+    </a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Abrir menu"><span></span></button>
+  </div>
+  <div class="drawer" id="drawer" aria-label="Menu">
+    <a class="drawer__link" href={u('/')}>Início</a>
+    {NAV.map((l) => <a class="drawer__link" href={u(l.href)}>{l.label}</a>)}
+    <div class="drawer__info">
+      <span>{SITE.address.neighborhood}, {SITE.address.city}-{SITE.address.state}</span>
+      <span>{SITE.hours[0].days}, {SITE.hours[0].time}</span>
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </div>
+  </div>
+</header>
+<script>
+  const burger = document.querySelector<HTMLButtonElement>('.burger');
+  const drawer = document.getElementById('drawer');
+  const setOpen = (open: boolean) => {
+    burger?.setAttribute('aria-expanded', String(open));
+    burger?.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    drawer?.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
+  };
+  burger?.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
+  drawer?.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) setOpen(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+</script>

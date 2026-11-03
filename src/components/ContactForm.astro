@@ -1,0 +1,69 @@
+---
+import { SITE } from '../config/site';
+import { u } from '../lib/url';
+interface Props { subject?: string; idPrefix?: string; compact?: boolean }
+const { subject = '', idPrefix = 'cf', compact = false } = Astro.props;
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+---
+<form class="form" data-endpoint={endpoint} data-wa={SITE.whatsapp.number} data-subject={subject} novalidate>
+  <div class="form__row">
+    <div class="field">
+      <label for={`${idPrefix}-nome`}>Nome</label>
+      <input class="input" id={`${idPrefix}-nome`} name="nome" type="text" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label for={`${idPrefix}-tel`}>WhatsApp / Telefone</label>
+      <input class="input" id={`${idPrefix}-tel`} name="telefone" type="tel" inputmode="tel" autocomplete="tel" required />
+    </div>
+  </div>
+  {!compact && (
+    <div class="field">
+      <label for={`${idPrefix}-email`}>E-mail (opcional)</label>
+      <input class="input" id={`${idPrefix}-email`} name="email" type="email" autocomplete="email" />
+    </div>
+  )}
+  <div class="field">
+    <label for={`${idPrefix}-msg`}>Mensagem</label>
+    <textarea class="textarea" id={`${idPrefix}-msg`} name="mensagem" required>{subject}</textarea>
+  </div>
+  <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <button class="btn btn--primary btn--block" type="submit">Enviar mensagem</button>
+  <p class="form__status" role="status" hidden></p>
+  <p class="notice">Ao enviar, você concorda com nossa <a href={u('/politica-de-privacidade')} style="text-decoration:underline">política de privacidade</a>. {SITE.responseTime}</p>
+</form>
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.form').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.form__status')!;
+    const show = (msg: string, error = false) => {
+      status.hidden = false;
+      status.textContent = msg;
+      if (error) status.setAttribute('data-error', ''); else status.removeAttribute('data-error');
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      if (data.get('website')) return;
+      const nome = String(data.get('nome') ?? '').trim();
+      const telefone = String(data.get('telefone') ?? '').trim();
+      const mensagem = String(data.get('mensagem') ?? '').trim();
+      if (!nome || telefone.replace(/\D/g, '').length < 10 || !mensagem) {
+        show('Preencha nome, um telefone válido (com DDD) e a mensagem.', true);
+        return;
+      }
+      const endpoint = form.dataset.endpoint;
+      const text = `Olá! Meu nome é ${nome}. ${mensagem}\nContato: ${telefone}`;
+      if (endpoint) {
+        try {
+          const res = await fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: data });
+          if (!res.ok) throw new Error();
+          form.reset();
+          show('Mensagem enviada! Em breve um consultor entrará em contato.');
+          return;
+        } catch {
+          show('Não foi possível enviar agora. Abrindo o WhatsApp para você…', true);
+        }
+      }
+      window.location.href = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(text)}`;
+    });
+  });
+</script>

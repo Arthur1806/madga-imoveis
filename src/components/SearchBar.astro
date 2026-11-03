@@ -1,0 +1,48 @@
+---
+import { getImoveis, TYPE_LABEL } from '../lib/imoveis';
+import Icon from './Icon.astro';
+import { u } from '../lib/url';
+const all = getImoveis();
+const neighborhoods = [...new Set(all.map((i) => i.neighborhood))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+const types = [...new Set(all.map((i) => i.type))];
+---
+<form class="search" action={u('/imoveis')} method="get" role="search" aria-label="Buscar imóveis" data-search>
+  <div class="search__tabs" role="radiogroup" aria-label="Finalidade">
+    <span class="search__thumb" aria-hidden="true"></span>
+    <label><input type="radio" name="finalidade" value="venda" checked /><span><Icon name="home" /> Comprar</span></label>
+    <label><input type="radio" name="finalidade" value="aluguel" /><span><Icon name="key" /> Alugar</span></label>
+  </div>
+  <div class="field">
+    <label for="s-bairro">Região</label>
+    <select class="select" id="s-bairro" name="bairro">
+      <option value="">Todas as regiões</option>
+      {neighborhoods.map((n) => <option value={n}>{n}</option>)}
+    </select>
+  </div>
+  <div class="field search__types">
+    <span class="label" id="s-tipo-l">Tipo de imóvel</span>
+    <div class="opts" role="radiogroup" aria-labelledby="s-tipo-l">
+      <label class="opt"><input type="radio" name="tipo" value="" checked /><span>Todos</span></label>
+      {types.map((t) => <label class="opt"><input type="radio" name="tipo" value={t} /><span>{TYPE_LABEL[t]}</span></label>)}
+    </div>
+  </div>
+  <p class="search__summary" aria-live="polite" data-summary></p>
+  <button class="btn btn--gold btn--lg" type="submit">Buscar imóveis <Icon name="arrow" /></button>
+</form>
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-search]').forEach((f) => {
+    const out = f.querySelector<HTMLElement>('[data-summary]')!;
+    const sel = f.querySelector<HTMLSelectElement>('select[name=bairro]')!;
+    const update = () => {
+      const fin = (f.querySelector<HTMLInputElement>('input[name=finalidade]:checked')?.value) === 'aluguel' ? 'para alugar' : 'à venda';
+      const tipo = f.querySelector<HTMLInputElement>('input[name=tipo]:checked');
+      const tipoTxt = tipo && tipo.value ? tipo.nextElementSibling!.textContent!.toLowerCase() : 'imóveis';
+      const reg = sel.value ? `no ${sel.value}` : 'em todas as regiões';
+      out.textContent = `Procurando ${tipoTxt} ${fin} ${reg}.`;
+      f.querySelector<HTMLElement>('.search__tabs')!.dataset.pos = fin === 'à venda' ? '0' : '1';
+    };
+    f.addEventListener('change', update);
+    f.addEventListener('reset', () => setTimeout(update));
+    update();
+  });
+</script>
