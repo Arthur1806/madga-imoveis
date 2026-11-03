@@ -21,9 +21,9 @@ const types = [...new Set(all.map((i) => i.type))];
   </div>
   <div class="field search__types">
     <span class="label" id="s-tipo-l">Tipo de imóvel</span>
-    <div class="chips" role="radiogroup" aria-labelledby="s-tipo-l">
-      <label class="chip"><input type="radio" name="tipo" value="" checked /><span>Todos</span></label>
-      {types.map((t) => <label class="chip"><input type="radio" name="tipo" value={t} /><span>{TYPE_LABEL[t]}</span></label>)}
+    <div class="opts" role="radiogroup" aria-labelledby="s-tipo-l">
+      <label class="opt"><input type="radio" name="tipo" value="" checked /><span>Todos</span></label>
+      {types.map((t) => <label class="opt"><input type="radio" name="tipo" value={t} /><span>{TYPE_LABEL[t]}</span></label>)}
     </div>
   </div>
   <p class="search__summary" aria-live="polite" data-summary></p>

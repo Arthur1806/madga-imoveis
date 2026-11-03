@@ -11,33 +11,61 @@ const a = SITE.address;
   description="Fale com a Magda Imóveis pelo WhatsApp (61) 9 9903-6449, telefone (61) 3771-7661 ou formulário. Atendimento no Lago Sul, Brasília-DF."
   jsonLd={[agentSchema, breadcrumbs([{ name: 'Início', path: '/' }, { name: 'Contato', path: '/contato' }])]}
 >
-  <section class="phero">
-    <div class="wrap">
+  <section class="shero chero">
+    <div class="wrap shero__in">
       <span class="eyebrow">Contato</span>
-      <h1>Fale com um especialista</h1>
+      <h1>Fale com <em>um especialista</em></h1>
       <p class="lead">{SITE.responseTime}</p>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap contact">
-      <div>
-        <a class="btn btn--wa btn--block" style="min-height:3.6rem;font-size:1.05rem" href={whatsappUrl('Olá! Vim pelo site da Magda Imóveis e gostaria de atendimento.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Chamar no WhatsApp</a>
-        <div class="channels" style="margin-top:1.5rem">
-          <a class="channel" href={SITE.phone.href}><Icon name="phone" /><div><small>Telefone</small><span>{SITE.phone.display}</span></div></a>
-          <a class="channel" href={`mailto:${SITE.email}`}><Icon name="mail" /><div><small>E-mail</small><span>{SITE.email}</span></div></a>
-          <a class="channel" href={SITE.instagram.url} target="_blank" rel="noopener"><Icon name="instagram" /><div><small>Instagram</small><span>{SITE.instagram.handle}</span></div></a>
-          <a class="channel" href={a.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" /><div><small>Endereço</small><span>{a.street} — {a.neighborhood}, {a.city}-{a.state}, CEP {a.postalCode}</span></div></a>
-        </div>
-        <h2 style="font-size:1.6rem;margin:2.5rem 0 1rem">Horário de atendimento</h2>
-        <dl class="hours">
-          {SITE.hours.map((h) => <div><dt>{h.days}</dt><dd>{h.time}</dd></div>)}
-        </dl>
-        <a class="btn btn--ghost" style="margin-top:1.5rem" href={a.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" /> Abrir no Google Maps</a>
+  <section class="section chero__body">
+    <div class="wrap">
+      <div class="quick">
+        <a class="quick__item quick__item--wa" href={whatsappUrl('Olá! Vim pelo site da Magda Imóveis e gostaria de atendimento.')} target="_blank" rel="noopener">
+          <span class="quick__icon"><Icon name="whatsapp" /></span>
+          <span class="quick__txt"><small>Resposta mais rápida</small><strong>WhatsApp</strong></span>
+          <Icon name="arrow" />
+        </a>
+        <a class="quick__item" href={SITE.phone.href}>
+          <span class="quick__icon"><Icon name="phone" /></span>
+          <span class="quick__txt"><small>Telefone</small><strong>{SITE.phone.display}</strong></span>
+          <Icon name="arrow" />
+        </a>
+        <a class="quick__item" href={`mailto:${SITE.email}`}>
+          <span class="quick__icon"><Icon name="mail" /></span>
+          <span class="quick__txt"><small>E-mail</small><strong>{SITE.email}</strong></span>
+          <Icon name="arrow" />
+        </a>
+        <a class="quick__item" href={SITE.instagram.url} target="_blank" rel="noopener">
+          <span class="quick__icon"><Icon name="instagram" /></span>
+          <span class="quick__txt"><small>Instagram</small><strong>{SITE.instagram.handle}</strong></span>
+          <Icon name="arrow" />
+        </a>
       </div>
-      <div>
-        <h2 style="font-size:clamp(1.7rem,4vw,2.2rem);margin-bottom:1rem">Envie uma mensagem</h2>
-        <ContactForm idPrefix="ct" />
+
+      <div class="contact contact--modern">
+        <div class="contact__form">
+          <span class="eyebrow">Mensagem</span>
+          <h2>Envie uma mensagem</h2>
+          <p class="contact__sub">Conte o que você procura e retornamos o mais breve possível.</p>
+          <ContactForm idPrefix="ct" />
+        </div>
+        <aside class="contact__info">
+          <div class="infocard">
+            <span class="infocard__icon"><Icon name="pin" /></span>
+            <h3>Nosso escritório</h3>
+            <p>{a.street} — {a.neighborhood}, {a.city}-{a.state}, CEP {a.postalCode}</p>
+            <a class="svc__link" href={a.mapsUrl} target="_blank" rel="noopener">Abrir no Google Maps <Icon name="arrow" /></a>
+          </div>
+          <div class="infocard">
+            <span class="infocard__icon"><Icon name="clock" /></span>
+            <h3>Horário de atendimento</h3>
+            <dl class="hours">
+              {SITE.hours.map((h) => <div><dt>{h.days}</dt><dd>{h.time}</dd></div>)}
+            </dl>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
