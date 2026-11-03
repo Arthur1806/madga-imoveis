@@ -470,7 +470,9 @@ body.menu-open { overflow: hidden; }
 .detail { display: grid; gap: 2.5rem; }
 .detail__summary {
   display: grid;
-  gap: .65rem;
+  gap: .78rem;
+  width: min(100%, 34rem);
+  margin-inline: auto;
 }
 .detail__tags {
   display: flex;
@@ -515,7 +517,9 @@ body.menu-open { overflow: hidden; }
 .detail__head {
   display: grid;
   gap: 1rem;
-  margin-top: .35rem;
+  margin-top: .55rem;
+  width: min(100%, 34rem);
+  margin-inline: auto;
 }
 .detail__price { margin: 0; font-family: var(--font-display); font-size: clamp(2.2rem, 7vw, 3rem); color: var(--green); line-height: 1; }
 .detail__actions {
@@ -526,14 +530,18 @@ body.menu-open { overflow: hidden; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem 1.1rem;
-  margin: 1.35rem auto 1.55rem;
+  width: min(100%, 22rem);
+  margin: 1.45rem auto 1.6rem;
   max-width: 29rem;
   justify-content: center;
+  justify-items: center;
   padding-block: 1.45rem 0;
   border-top: 1px solid #d8e0db;
 }
 .detail__specs div {
   padding: 0;
+  width: 100%;
+  max-width: 9rem;
 }
 .detail__specs dt {
   display: grid;
@@ -544,6 +552,8 @@ body.menu-open { overflow: hidden; }
   text-transform: uppercase;
   color: #3e6058;
   margin-top: 0;
+  justify-items: center;
+  text-align: center;
 }
 .detail__spec-icon {
   width: 2.15rem;
@@ -567,6 +577,7 @@ body.menu-open { overflow: hidden; }
   font-weight: 700;
   color: var(--green-deep);
   line-height: 1;
+  text-align: center;
 }
 .prose { max-width: 42rem; }
 .prose h2 { font-size: 1.9rem; margin: 2rem 0 .75rem; }
@@ -796,13 +807,19 @@ dl.hours dt { color: var(--ink-soft); } dl.hours dd { margin: 0; font-weight: 50
   .gallery__thumbs button:hover img { opacity: .82; }
   .detail { grid-template-columns: 1fr 22rem; align-items: start; gap: 4rem; }
   .detail__summary { max-width: 46rem; }
+  .detail__summary, .detail__head { width: auto; margin-inline: 0; }
   .detail__head { grid-template-columns: 1fr auto; align-items: end; }
   .detail__actions { min-width: 13.5rem; }
   .detail__specs {
+    width: auto;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.2rem;
     max-width: 46rem;
+    justify-items: stretch;
   }
+  .detail__specs dt, .detail__specs dd { text-align: left; }
+  .detail__specs dt { justify-items: start; }
+  .detail__specs div { max-width: none; }
   .aside { position: sticky; top: calc(var(--header-h) + 1.5rem); }
   .contact { grid-template-columns: 1fr 1.1fr; gap: 5rem; align-items: start; }
   .channels { grid-template-columns: 1fr; }
