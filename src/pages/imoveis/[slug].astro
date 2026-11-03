@@ -113,13 +113,23 @@ const jsonLd = [
 
       <div class="detail" style="margin-top: 3rem">
         <div>
-          <p class="detail__price">{formatPrice(imovel)}</p>
+          <div class="detail__head">
+            <div class="detail__price-wrap">
+              <p class="detail__kicker">Valor de referência</p>
+              <p class="detail__price">{formatPrice(imovel)}</p>
+              <p class="detail__sub">{PURPOSE_LABEL[imovel.purpose]} · {TYPE_LABEL[imovel.type]} · {imovel.neighborhood}</p>
+            </div>
+            <div class="detail__actions">
+              <a class="btn btn--wa btn--block" href={whatsappUrl(waMsg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Tenho interesse</a>
+              <a class="btn btn--ghost btn--block" href={SITE.phone.href}><Icon name="phone" /> Ligar agora</a>
+            </div>
+          </div>
           {specList.length > 0 && (
             <dl class="detail__specs">
               {specList.map((s) => <div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
             </dl>
           )}
-          <div class="prose">
+          <div class="prose detail__content">
             {imovel.description.map((b) =>
               b.type === 'h' ? <h2>{b.text}</h2> : b.type === 'ul' ? <ul>{b.items.map((it) => <li>{it}</li>)}</ul> : <p>{b.text}</p>
             )}
@@ -137,8 +147,14 @@ const jsonLd = [
         </div>
 
         <aside class="aside" aria-labelledby="aside-title">
-          <h2 id="aside-title">Tenho interesse</h2>
-          <p style="margin:0;color:var(--ink-soft)">Fale com um consultor sobre este imóvel e agende sua visita.</p>
+          <h2 id="aside-title">Tenho interesse neste imóvel</h2>
+          <p class="aside__intro">Fale com um consultor sobre este imóvel e agende sua visita.</p>
+          <ul class="aside__quick" aria-label="Resumo rápido do imóvel">
+            <li><span>Bairro</span><strong>{imovel.neighborhood}</strong></li>
+            <li><span>Tipo</span><strong>{TYPE_LABEL[imovel.type]}</strong></li>
+            <li><span>Finalidade</span><strong>{PURPOSE_LABEL[imovel.purpose]}</strong></li>
+            <li><span>Cidade</span><strong>{imovel.city}</strong></li>
+          </ul>
           <a class="btn btn--wa btn--block" href={whatsappUrl(waMsg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Conversar no WhatsApp</a>
           <a class="btn btn--ghost btn--block" href={SITE.phone.href}><Icon name="phone" /> {SITE.phone.display}</a>
           <details style="margin-top:.5rem">
