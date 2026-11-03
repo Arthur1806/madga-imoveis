@@ -190,7 +190,18 @@ body.menu-open { overflow: hidden; }
 .card__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(12,28,24,.42), rgba(12,28,24,0) 42%); opacity: .62; pointer-events: none; }
 .card__body { display: flex; flex-direction: column; gap: .58rem; padding: 1.35rem 1.25rem 1.45rem; flex: 1; }
 .card__loc { font-size: .8rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
-.card__title { font-family: var(--font-display); font-size: 1.45rem; line-height: 1.15; color: var(--green-deep); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card__title {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.18;
+  color: var(--green-deep);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .card__price { font-size: 1.15rem; font-weight: 600; color: var(--green); margin: 0; }
 .specs { display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; font-size: .88rem; color: var(--ink-soft); padding-top: .75rem; border-top: 1px solid var(--line); margin-top: .5rem; }
 .specs strong { color: var(--ink); font-weight: 500; }
@@ -484,7 +495,10 @@ body.menu-open { overflow: hidden; }
   color: #fff;
 }
 .detail__title {
+  font-family: var(--font-body);
   font-size: clamp(2rem, 6.8vw, 3.05rem);
+  font-weight: 620;
+  letter-spacing: -.022em;
   line-height: 1.08;
   margin: 0;
   color: var(--green-deep);
@@ -512,7 +526,9 @@ body.menu-open { overflow: hidden; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem 1.1rem;
-  margin-block: 1.6rem 1.7rem;
+  margin: 1.35rem auto 1.55rem;
+  max-width: 29rem;
+  justify-content: center;
   padding-block: 1.45rem 0;
   border-top: 1px solid #d8e0db;
 }
@@ -530,8 +546,8 @@ body.menu-open { overflow: hidden; }
   margin-top: 0;
 }
 .detail__spec-icon {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.15rem;
+  height: 2.15rem;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -539,7 +555,7 @@ body.menu-open { overflow: hidden; }
   background: #e6eeea;
   color: #2b5950;
 }
-.detail__spec-icon svg { width: 1.3rem; height: 1.3rem; }
+.detail__spec-icon svg { width: 1.12rem; height: 1.12rem; }
 .detail__specs dt span:last-child {
   font-size: .8rem;
   letter-spacing: .08em;
@@ -547,7 +563,7 @@ body.menu-open { overflow: hidden; }
 .detail__specs dd {
   margin: .3rem 0 0;
   font-family: var(--font-body);
-  font-size: 2rem;
+  font-size: 1.82rem;
   font-weight: 700;
   color: var(--green-deep);
   line-height: 1;
@@ -559,11 +575,50 @@ body.menu-open { overflow: hidden; }
 .prose li { margin-bottom: .3rem; }
 .detail__content.prose {
   max-width: 48rem;
-  padding: clamp(1.2rem, 3.4vw, 1.8rem);
-  border: 1px solid #dbe1da;
-  border-radius: calc(var(--radius) + 2px);
-  background: #fff;
-  box-shadow: var(--shadow-sm);
+  padding: clamp(1.25rem, 3.5vw, 1.95rem);
+  border: 1px solid #d6ddd7;
+  border-radius: calc(var(--radius) + 4px);
+  background: linear-gradient(180deg, #fff 0%, #fbfaf7 100%);
+  box-shadow: var(--shadow-md);
+}
+.detail__content.prose > :first-child { margin-top: 0; }
+.detail__content.prose h2 {
+  font-family: var(--font-body);
+  font-size: clamp(1.15rem, 2.7vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -.012em;
+  color: #1f302d;
+  margin: 1.6rem 0 .72rem;
+  padding-top: .95rem;
+  border-top: 1px solid #e3e8e3;
+}
+.detail__content.prose p {
+  margin-bottom: .95rem;
+  color: #33443f;
+  line-height: 1.72;
+}
+.detail__content.prose ul {
+  margin: .75rem 0 1.05rem;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: .56rem;
+}
+.detail__content.prose li {
+  margin: 0;
+  position: relative;
+  padding-left: 1.05rem;
+  color: #33443f;
+}
+.detail__content.prose li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c79a3a;
 }
 .aside {
   display: grid;
@@ -746,6 +801,7 @@ dl.hours dt { color: var(--ink-soft); } dl.hours dd { margin: 0; font-weight: 50
   .detail__specs {
     grid-template-columns: repeat(4, 1fr);
     gap: 1.2rem;
+    max-width: 46rem;
   }
   .aside { position: sticky; top: calc(var(--header-h) + 1.5rem); }
   .contact { grid-template-columns: 1fr 1.1fr; gap: 5rem; align-items: start; }
