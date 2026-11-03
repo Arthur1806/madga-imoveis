@@ -1004,3 +1004,10 @@ dl.hours dt { color: var(--ink-soft); } dl.hours dd { margin: 0; font-weight: 50
 }
 .btn--block.btn--ghost:hover { background: #f1f7f3; color: var(--green-deep); border-color: var(--green); transform: translateY(-2px); box-shadow: 0 8px 18px -8px rgba(15,47,41,.3); }
 .btn--block.btn--ghost svg { width: 1.9rem; height: 1.9rem; padding: .4rem; border-radius: 50%; background: #e4efe8; color: var(--green); }
+
+/* Hero /imoveis */
+.shero__stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; list-style: none; padding: 0; margin: 1.4rem 0 0; max-width: 34rem; }
+.shero__stats li { padding: .9rem 1rem; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; background: rgba(255,255,255,.06); backdrop-filter: blur(6px); display: grid; gap: .1rem; }
+.shero__stats strong { font-size: 1.9rem; line-height: 1; color: var(--gold-bright); font-weight: 700; }
+.shero__stats span { font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: #cfddd7; }
+@media (min-width: 640px) { .shero__stats { grid-template-columns: repeat(4, 1fr); } }

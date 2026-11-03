@@ -15,11 +15,17 @@ const types = [...new Set(all.map((i) => i.type))];
   description="Casas, apartamentos e imóveis comerciais de alto padrão à venda e para locação em Brasília-DF: Lago Sul, Park Way, Jardim Botânico, Asa Sul e mais."
   jsonLd={breadcrumbs([{ name: 'Início', path: '/' }, { name: 'Imóveis', path: '/imoveis' }])}
 >
-  <section class="phero">
-    <div class="wrap">
+  <section class="shero">
+    <div class="wrap shero__in">
       <span class="eyebrow">Nosso portfólio</span>
-      <h1>Imóveis em Brasília</h1>
+      <h1>Imóveis em <em>Brasília</em></h1>
       <p class="lead">Casas e apartamentos de alto padrão selecionados pela equipe da Magda Imóveis.</p>
+      <ul class="shero__stats">
+        <li><strong>{all.length}</strong><span>imóveis</span></li>
+        <li><strong>{neighborhoods.length}</strong><span>regiões</span></li>
+        <li><strong>{all.filter((i) => i.purpose === 'venda').length}</strong><span>à venda</span></li>
+        <li><strong>{all.filter((i) => i.purpose === 'aluguel').length}</strong><span>para alugar</span></li>
+      </ul>
     </div>
   </section>
 
