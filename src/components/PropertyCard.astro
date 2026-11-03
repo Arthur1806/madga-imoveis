@@ -29,6 +29,9 @@ const s = specs(imovel);
     {s.length > 0 && (
       <div class="specs">{s.map((i) => <span><strong>{i.value}</strong> {i.label.toLowerCase()}</span>)}</div>
     )}
-    <p class="card__price">{formatPrice(imovel)}</p>
+    <div class="card__foot">
+      <p class="card__price">{formatPrice(imovel)}</p>
+      <span class="card__cta">Ver imóvel</span>
+    </div>
   </div>
 </li>
