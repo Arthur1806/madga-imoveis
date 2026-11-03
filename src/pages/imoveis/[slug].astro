@@ -71,6 +71,14 @@ const jsonLd = [
       : {}),
   },
 ];
+const blocks = imovel.description;
+const isText = (b: any) => b.type === 'p';
+let start = 0;
+while (start < blocks.length && isText(blocks[start])) start++;
+let end = blocks.length;
+while (end > start && isText(blocks[end - 1])) end--;
+const summary = [...blocks.slice(0, start), ...blocks.slice(end)] as { type: 'p'; text: string }[];
+const middle = blocks.slice(start, end);
 ---
 <Base
   title={`${imovel.title}`}
@@ -138,7 +146,17 @@ const jsonLd = [
             </dl>
           )}
           <div class="prose detail__content">
-            {imovel.description.map((b) =>
+            {summary.length > 0 && (
+              <div class="summary" data-summary>
+                <div class="summary__text" id="summary-text">
+                  {summary.map((b) => <p>{b.text}</p>)}
+                </div>
+                <button class="summary__toggle" type="button" aria-expanded="false" aria-controls="summary-text" hidden>
+                  <span>Ver mais</span> <Icon name="arrow" />
+                </button>
+              </div>
+            )}
+            {middle.map((b) =>
               b.type === 'h' ? <h2>{b.text}</h2> : b.type === 'ul' ? <ul>{b.items.map((it) => <li>{it}</li>)}</ul> : <p>{b.text}</p>
             )}
             {imovel.features.length > 0 && (
@@ -196,6 +214,22 @@ const jsonLd = [
 </Base>
 
 <script>
+  document.querySelectorAll<HTMLElement>('[data-summary]').forEach((box) => {
+    const text = box.querySelector<HTMLElement>('.summary__text')!;
+    const btn = box.querySelector<HTMLButtonElement>('.summary__toggle')!;
+    const label = btn.querySelector('span')!;
+    const check = () => {
+      if (box.classList.contains('is-open')) return;
+      btn.hidden = text.scrollHeight <= text.clientHeight + 2;
+    };
+    btn.addEventListener('click', () => {
+      const open = box.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      label.textContent = open ? 'Ver menos' : 'Ver mais';
+    });
+    check();
+    addEventListener('resize', check);
+  });
   document.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((b) => {
     const label = b.querySelector('span')!;
     b.addEventListener('click', async () => {
